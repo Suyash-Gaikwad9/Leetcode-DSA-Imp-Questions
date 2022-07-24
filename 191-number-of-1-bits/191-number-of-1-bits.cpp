@@ -4,7 +4,7 @@ public:
         int count = 0;
         while(n!=0){
             //check the last bit
-            if(n&1==1){
+            if(n&1){
                 count++;
             }
             n = n>>1;
