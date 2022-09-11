@@ -12,9 +12,15 @@
 class Solution {
 public:
     int maxDepth(TreeNode* root) {
-        if(!root) return 0;
+        //base case
+        if(root == NULL){
+           return 0; 
+        } 
+        //recursive calls
         int maxLeft = maxDepth(root->left);
         int maxRight = maxDepth(root->right);
+        
+        //answer
         return max(maxLeft, maxRight)+1;
     }
 };
