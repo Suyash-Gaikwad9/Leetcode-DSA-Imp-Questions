@@ -82,6 +82,35 @@ public:
     }
     return dp[0][0];
 }
+
+
+int solveSO(vector<vector<int>>& mat, int &maxi){
+        
+        int row = mat.size();
+        int col = mat[0].size();
+        //vector<vector<int> > dp(row+1, vector<int>(col+1, 0));
+        vector<int>curr(col+1, 0);
+        vector<int>next(col+1, 0);
+        for(int i = row-1; i >= 0; i--){
+            for(int j = col-1; j >= 0; j--){
+                        
+            int right = curr[j+1];
+            int dig = next[j+1];
+            int down = next[j];
+            
+            if(mat[i][j] == 1){
+                curr[j] = 1 + min(right, min(dig, down));
+                maxi = max(maxi, curr[j]);
+                
+            }
+            else{
+                curr[j] = 0;
+            }
+        }
+        next = curr;
+    }
+    return next[0];
+}
     
     
     int maxSquare(int n, int m, vector<vector<int>> mat){
@@ -94,8 +123,12 @@ public:
         // solveMem(mat, 0,0, maxi, dp);
         // return maxi;
         
+        // int maxi = 0;
+        // solveTab(mat, maxi);
+        // return maxi;
+        
         int maxi = 0;
-        solveTab(mat, maxi);
+        solveSO(mat, maxi);
         return maxi;
     }
 };
