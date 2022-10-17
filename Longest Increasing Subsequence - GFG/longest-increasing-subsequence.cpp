@@ -50,12 +50,40 @@ class Solution
     }
     
     
+    int solveTab(int n, int a[]){
+        //step1
+        vector<vector<int> >dp(n+1, vector<int>(n+1, 0));
+        
+        for(int curr = n-1; curr >= 0; curr--){
+            for(int prev = curr-1; prev >= -1; prev--){
+                
+                //Include
+                int take = 0;
+                
+                if(prev == -1 || a[curr] > a[prev]){
+                    take = 1 + dp[curr+1][curr+1];
+                }
+                
+                //Exclude
+                int notTake = 0 + dp[curr+1][prev+1];
+                
+                dp[curr][prev+1] = max(take,notTake);
+            }
+        }
+        return dp[0][0];
+    }
+    
+    
     //Function to find length of longest increasing subsequence.
     int longestSubsequence(int n, int a[])
     {
         //return solve(n, a, 0, -1);
-        vector<vector<int> >dp(n, vector<int>(n+1, -1));
-        return solveMem(n, a, 0, -1, dp);
+        // vector<vector<int> >dp(n, vector<int>(n+1, -1));
+        // return solveMem(n, a, 0, -1, dp);
+        
+        return solveTab(n,a);
+        
+        
     }
 };
 
