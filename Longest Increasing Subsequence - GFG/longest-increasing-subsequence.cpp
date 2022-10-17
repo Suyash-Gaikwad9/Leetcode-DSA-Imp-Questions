@@ -73,16 +73,43 @@ class Solution
         return dp[0][0];
     }
     
+    int solveSO(int n, int a[]){
+        
+        vector<int>currRow(n+1, 0);
+        vector<int>nextRow(n+1, 0);
+        
+        for(int curr = n-1; curr >= 0; curr--){
+            for(int prev = curr-1; prev >= -1; prev--){
+                
+                //Include
+                int take = 0;
+                
+                if(prev == -1 || a[curr] > a[prev]){
+                    take = 1 + nextRow[curr+1];
+                }
+                
+                //Exclude
+                int notTake = 0 + nextRow[prev+1];
+                
+                currRow[prev+1] = max(take,notTake);
+            }
+            nextRow = currRow;
+        }
+        return nextRow[0];
+    }
+    
+    
     
     //Function to find length of longest increasing subsequence.
     int longestSubsequence(int n, int a[])
     {
         //return solve(n, a, 0, -1);
+        
         // vector<vector<int> >dp(n, vector<int>(n+1, -1));
         // return solveMem(n, a, 0, -1, dp);
         
-        return solveTab(n,a);
-        
+        //return solveTab(n,a);
+        return solveSO(n,a);
         
     }
 };
