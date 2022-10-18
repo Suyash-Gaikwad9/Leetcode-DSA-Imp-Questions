@@ -118,8 +118,8 @@ class Solution {
         // vector<vector<long long> >dp(N+1, vector<long long>(X+1, -1));
         // return solveMem(N, M, X, dp);
         
-        return solveTab(N,M,X);
-        
+        //return solveTab(N,M,X);
+        return solveSO(N,M,X);
         
     }
 };
