@@ -74,8 +74,8 @@ public:
     
     bool solveSO(int N, int *arr, int total){
         
-        vector<int>curr(total+1, 0);
-        vector<int>next(total+1, 0);
+        vector<int>curr(total/2+1, 0);
+        vector<int>next(total/2+1, 0);
         
         curr[0] = 1;
         next[0] = 1;
