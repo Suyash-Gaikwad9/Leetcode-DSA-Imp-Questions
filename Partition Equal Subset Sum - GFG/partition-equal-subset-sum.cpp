@@ -23,7 +23,7 @@ public:
         
         bool incl = solve(index + 1, arr, N, target - arr[index]);
         bool excl = solve(index + 1, arr, N, target - 0);
-        return incl or excl;
+        return incl || excl;
     }
     
     
@@ -45,7 +45,7 @@ public:
         
         bool incl = solveMem(index + 1, arr, N, target - arr[index], dp);
         bool excl = solveMem(index + 1, arr, N, target - 0, dp);
-        return dp[index][target] = incl or excl;
+        return dp[index][target] = incl || excl;
     }
     
     
@@ -71,6 +71,32 @@ public:
         return dp[0][total/2];
     }
     
+    
+    bool solveSO(int N, int *arr, int total){
+        
+        vector<int>curr(total+1, 0);
+        vector<int>next(total+1, 0);
+        
+        curr[0] = 1;
+        next[0] = 1;
+        
+        
+        for(int index = N-1; index >= 0; index--){
+            for(int target = 0; target <= total/2; target++){
+                
+                bool incl = 0;
+                if(target - arr[index] >= 0)
+                    incl = next[target - arr[index]];
+                
+                bool excl = next[target - 0];
+                curr[target] = incl || excl;
+                
+            }
+            next = curr;
+        }
+        return next[total/2];
+    }
+    
 
     int equalPartition(int N, int arr[])
     {
@@ -88,7 +114,8 @@ public:
         // vector<vector<int> >dp(N, vector<int>(target+1, -1));
         // solveMem(0, arr, N, target, dp);
         
-        return solveTab(N, arr, total);
+        //return solveTab(N, arr, total);
+        return solveSO(N, arr, total);
     }
 };
 
