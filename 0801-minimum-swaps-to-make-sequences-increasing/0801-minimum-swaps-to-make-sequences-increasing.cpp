@@ -98,6 +98,54 @@ public:
     
     
     
+    int solveSO(vector<int>& nums1, vector<int>& nums2){
+        int n = nums1.size();
+        
+        
+        int swap1 = 0;
+        int noSwap = 0;
+        int currSwap = 0;
+        int currNoSwap = 0;
+        
+        for(int index = n-1; index >= 1; index--)
+        {
+            for(int swapped = 1; swapped >= 0; swapped--){
+                
+                int ans = INT_MAX;
+        
+                int prev1 = nums1[index-1];
+                int prev2 = nums2[index-1];
+
+
+                //catch
+                if(swapped){
+                    swap(prev1, prev2);
+                }
+                //no swap
+                if(nums1[index] > prev1 && nums2[index] > prev2)
+                {
+                    ans = noSwap;
+                }
+                //swap
+                if(nums1[index] > prev2 && nums2[index] > prev1){
+                    ans = min(ans, 1 + swap1);
+                }
+                if(swapped){
+                    currSwap = ans;
+                }
+                else{
+                    currNoSwap = ans;
+                }
+                
+            }
+            swap1 = currSwap;
+            noSwap = currNoSwap;
+        }
+            return min(swap1, noSwap);
+    }
+    
+    
+    
     int minSwap(vector<int>& nums1, vector<int>& nums2) {
         //it means that the previous indexes were swapped or not
         bool swapped = 0;
@@ -112,6 +160,8 @@ public:
         // vector<vector<int> > dp(n, vector<int>(2, -1));
         // return solveMem(nums1, nums2, 1, swapped, dp);
         
-        return solveTab(nums1, nums2);
+        //return solveTab(nums1, nums2);
+        
+        return solveSO(nums1, nums2);
     }
 };
