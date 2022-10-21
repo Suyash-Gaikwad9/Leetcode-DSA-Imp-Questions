@@ -24,9 +24,42 @@ public:
         }
     return dp[index][buy] = profit;
     }
-    int maxProfit(vector<int>& prices) {
+    
+    
+    int solveTab(vector<int>& prices){
         int n = prices.size();
-        vector<vector<int>>dp(n, vector<int>(2, -1));
-        return solve(0, 1, prices, dp);
+        vector<vector<int>>dp(n+1, vector<int>(2, 0));
+        
+        
+        
+        for(int index = n-1; index >= 0; index--){
+            for(int buy = 0; buy <= 1; buy++){
+                int profit = 0;
+        
+                if(buy){
+                    
+                    int buyMove = -prices[index] + dp[index+1][0];
+                    int skipMove = 0 + dp[index+1][1];
+                    profit = max(buyMove, skipMove);
+                }
+                else{
+                    int sellMove = +prices[index] + dp[index+1][1];
+                    int skipMove = 0 + dp[index+1][0];
+                    profit = max(sellMove, skipMove);
+                }
+                dp[index][buy] = profit;
+                
+            }
+        }
+        return dp[0][1];
+    }
+    
+    
+    int maxProfit(vector<int>& prices) {
+        // int n = prices.size();
+        // vector<vector<int>>dp(n, vector<int>(2, -1));
+        // return solve(0, 1, prices, dp);
+        
+        return solveTab(prices);
     }
 };
