@@ -1,21 +1,37 @@
 class Solution {
 public:
-//     int solveMem(int n, vector<int>& dp){
-//         if(n <= 1)
-//             return 1;
+    int solve(int n){
+        if(n <= 1)
+            return 1;
         
-//         if(dp[n] != -1){
-//             return dp[n];
-//         }
         
-//         int ans = 0;
         
-//         //suppose i as a root node
-//         for(int i = 1; i <= n; i++){
-//             ans += solve(i-1, dp) * solve(n-i, dp);
-//         }
-//         return dp[n] = ans;
-//     }
+        int ans = 0;
+        
+        //suppose i as a root node
+        for(int i = 1; i <= n; i++){
+            ans += solve(i-1) * solve(n-i);
+        }
+        return ans;
+    }
+    
+    
+    int solveMem(int n, vector<int>& dp){
+        if(n <= 1)
+            return 1;
+        
+        if(dp[n] != -1){
+            return dp[n];
+        }
+        
+        int ans = 0;
+        
+        //suppose i as a root node
+        for(int i = 1; i <= n; i++){
+            ans += solveMem(i-1, dp) * solveMem(n-i, dp);
+        }
+        return dp[n] = ans;
+    }
     
     
     int solveTab(int n){
@@ -36,8 +52,9 @@ public:
     
     
     int numTrees(int n) {
+        //return solve(n);
         // vector<int>dp(n+1, -1);
-        // return solve(n, dp);
+        // return solveMem(n, dp);
         return solveTab(n);
     }
 };
