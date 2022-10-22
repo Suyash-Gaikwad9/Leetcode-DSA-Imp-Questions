@@ -115,6 +115,36 @@ public:
     
     
     
+    int solveSO(int k, vector<int>& prices){
+        int n = prices.size();
+        //vector<vector<int>>dp(n+1, vector<int>(2*k+1, 0));
+        vector<int>curr(2*k+1, 0);
+        vector<int>next(2*k+1, 0);
+        for(int index = n-1; index >= 0; index--){
+            for(int operationNo = 0; operationNo < 2*k; operationNo++){
+                
+                int profit = 0;
+                if(operationNo % 2 == 0){
+                    //buy allowd
+                    int buyMove = -prices[index] + next[operationNo + 1];
+                    int skipMove = 0 + next[operationNo];
+                    profit = max(buyMove, skipMove);
+                }
+                else{
+                    int sellMove = +prices[index] + next[operationNo+1];
+                    int skipMove = 0 + next[operationNo];
+                    profit = max(sellMove, skipMove);
+                }
+                curr[operationNo] = profit;
+                
+            }
+            next = curr;
+        }
+        return next[0];
+    }
+    
+    
+    
     int maxProfit(int k, vector<int>& prices) {
         //return solveTab(prices, k);
         //return solve(0, 0, k, prices);
@@ -122,6 +152,9 @@ public:
         // int n = prices.size();
         // vector<vector<int>>dp(n, vector<int>(2*k, -1));
         // return solveMem(0, 0, k, prices, dp);
-        return solveTab(k, prices);
+        
+        //return solveTab(k, prices);
+        
+        return solveSO(k, prices);
     }
 };
