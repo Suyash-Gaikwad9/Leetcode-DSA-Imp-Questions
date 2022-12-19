@@ -30,6 +30,9 @@ class Solution
                         visited[vertex] = true;
                     }
                 }
+                if(visited[destination]){
+                    return visited[destination];
+                }
             }
             return visited[destination];
         }
