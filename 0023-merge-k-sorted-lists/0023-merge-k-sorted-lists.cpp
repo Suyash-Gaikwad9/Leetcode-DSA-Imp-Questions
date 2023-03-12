@@ -10,44 +10,46 @@
  */
 class Solution {
 public:
-    ListNode* mergeList(ListNode *p, ListNode *q){
-        ListNode *start = new ListNode(-1);
-        ListNode *head = new ListNode;
-        head = start;
-        while(p && q){
-            if(p->val > q->val){
-                start->next = q;
-                q = q->next;
+    ListNode* merge(ListNode *left, ListNode *right){
+        ListNode *dummy = new ListNode(-1);
+        ListNode *temp = dummy;
+        while(left != NULL && right != NULL){
+            if(left -> val < right -> val){
+                temp->next = left;
+                temp = temp->next;
+                left = left->next;
             }
             else{
-                start->next = p;
-                p = p->next;
+                temp->next = right;
+                temp = temp->next;
+                right = right->next;
             }
-            start = start->next;
         }
-        while(p){
-            start->next = p;
-            p = p->next;
-            start = start->next;
+        while(left != NULL){
+            temp->next = left;
+            temp = temp->next;
+            left = left->next;
         }
-        while(q){
-            start->next = q;
-            q = q->next;
-            start = start->next;
+        while(right != NULL){
+            temp->next = right;
+            temp = temp->next;
+            right = right->next;
         }
-        return head->next;
+        return dummy->next;
+    }
+    
+    ListNode *mergeSort(vector<ListNode*>& lists, int start, int end){
+        if(start == end)
+            return lists[start];
+        int mid = start + (end - start) / 2;
+        ListNode *left = mergeSort(lists, start, mid);
+        ListNode *right = mergeSort(lists, mid+1, end);
+        return merge(left, right);
     }
     
     ListNode* mergeKLists(vector<ListNode*>& lists) {
         if(lists.size() == 0)
             return NULL;
-        
-        ListNode* head = new ListNode;
-        head = lists[0];
-        
-        for(int i = 1; i < lists.size(); i++){
-            head = mergeList(lists[i], head);
-        }
-        return head;
+        return mergeSort(lists, 0, lists.size() - 1);
     }
 };
