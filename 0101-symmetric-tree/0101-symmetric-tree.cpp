@@ -11,14 +11,30 @@
  */
 class Solution {
 public:
-    bool isSymmetric(TreeNode* root) {
-        return root == NULL || isSymetricHelp(root->left, root->right);
+    
+    bool match(TreeNode* left, TreeNode* right){
+        if(left != NULL && right != NULL){
+            bool a = match(left -> left, right->right);
+            bool b = match(left->right, right->left);
+            
+            if((left -> val == right -> val)&& a && b){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+            if(left == NULL && right == NULL){
+                return true;
+            }
+            else{
+                return false;
+            }
     }
-    bool isSymetricHelp(TreeNode* left, TreeNode* right){
-        if(left == NULL || right == NULL)
-            return left == right;
-        if(left->val != right->val)
-            return false;
-        return isSymetricHelp(left->left, right->right) && isSymetricHelp(left->right, right->left);
+    
+    bool isSymmetric(TreeNode* root) {
+        if(root == NULL)
+            return true;
+        return match(root->left, root->right);
     }
 };
